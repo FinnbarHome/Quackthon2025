@@ -8,21 +8,31 @@ const router = express.Router();
 // User Login Route
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
-    
+
     try {
         const user = await User.findOne({ username });
-        if (!user) return res.status(400).json({ error: "User not found" });
+        if (!user) {
+            console.log("❌ User not found:", username);
+            return res.status(400).json({ error: "User not found" });
+        }
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ error: "Invalid password" });
+        if (!isMatch) {
+            console.log("❌ Incorrect password for user:", username);
+            return res.status(400).json({ error: "Invalid password" });
+        }
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
+        console.log(`✅ Login successful: ${username}`);
         res.json({ token, userId: user._id, balance: user.balance });
+
     } catch (err) {
+        console.error("❌ Server error:", err);
         res.status(500).json({ error: "Server error" });
     }
 });
+
 
 // Register New User
 router.post("/register", async (req, res) => {
