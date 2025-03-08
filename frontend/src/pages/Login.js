@@ -22,7 +22,15 @@ const Login = () => {
     setIsLoading(true);
     try {
       console.log("Login attempted with:", formData);
-      navigate("/scan-rfd");
+      // Store credentials for future biometric login
+      localStorage.setItem(
+        "userCredentials",
+        JSON.stringify({
+          id: formData.customerNumber, // Store the user ID
+          username: formData.customerNumber,
+        })
+      );
+      navigate("/auth");
     } catch (error) {
       console.error("Login failed:", error);
     } finally {
