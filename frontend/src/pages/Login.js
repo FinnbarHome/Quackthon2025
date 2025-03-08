@@ -175,7 +175,7 @@ const Login = () => {
                   ></div>
                 </button>
                 <button
-                  onClick={() => navigate("/register")}
+                  onClick={() => navigate("/Register.js")}
                   className="text-zinc-500 hover:text-white transition-colors 
                            relative group rounded-lg px-2 py-1 overflow-hidden"
                 >
