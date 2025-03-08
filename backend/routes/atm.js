@@ -4,13 +4,20 @@ const Transaction = require("../models/Transaction");
 const authMiddleware = require("../middleware/authMiddleware");
 const router = express.Router();
 
+// Helper function to validate transactions
+const validateTransaction = (customerNumber, amount) => {
+    if (!customerNumber || typeof amount !== "number" || amount <= 0) {
+        return { error: "Invalid input. Customer number and positive amount required." };
+    }
+    return null;
+};
+
 // Withdraw Money
 router.post("/withdraw", authMiddleware, async (req, res) => {
     const { customerNumber, amount } = req.body;
 
-    if (!customerNumber || !amount || amount <= 0) {
-        return res.status(400).json({ error: "Invalid input. Customer number and positive amount required." });
-    }
+    const validationError = validateTransaction(customerNumber, amount);
+    if (validationError) return res.status(400).json(validationError);
 
     try {
         const user = await User.findOne({ customerNumber });
@@ -23,8 +30,7 @@ router.post("/withdraw", authMiddleware, async (req, res) => {
         await user.save();
 
         // Log transaction
-        const transaction = new Transaction({ userId: user._id, type: "withdraw", amount });
-        await transaction.save();
+        await Transaction.create({ userId: user._id, type: "withdraw", amount });
 
         res.json({ message: "Withdrawal successful", newBalance: user.balance });
     } catch (err) {
@@ -37,9 +43,8 @@ router.post("/withdraw", authMiddleware, async (req, res) => {
 router.post("/deposit", authMiddleware, async (req, res) => {
     const { customerNumber, amount } = req.body;
 
-    if (!customerNumber || !amount || amount <= 0) {
-        return res.status(400).json({ error: "Invalid input. Customer number and positive amount required." });
-    }
+    const validationError = validateTransaction(customerNumber, amount);
+    if (validationError) return res.status(400).json(validationError);
 
     try {
         const user = await User.findOne({ customerNumber });
@@ -50,8 +55,7 @@ router.post("/deposit", authMiddleware, async (req, res) => {
         await user.save();
 
         // Log transaction
-        const transaction = new Transaction({ userId: user._id, type: "deposit", amount });
-        await transaction.save();
+        await Transaction.create({ userId: user._id, type: "deposit", amount });
 
         res.json({ message: "Deposit successful", newBalance: user.balance });
     } catch (err) {
