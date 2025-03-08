@@ -6,8 +6,8 @@ const UserSchema = new mongoose.Schema({
     balance: { type: Number, default: 1000 } // Default Balance
 });
 
-// Generate a unique 10-digit customer number if not provided
-UserSchema.pre("save", async function (next) {
+// Ensure customerNumber is generated before saving
+UserSchema.pre("validate", async function (next) {
     if (!this.customerNumber) {
         let uniqueNumber;
         do {
