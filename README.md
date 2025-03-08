@@ -8,7 +8,7 @@ Project for the 2025 quackathon
 - Lucca Camargo
 
 ## Tech Stack:
-MERN with tailwind (MongoDB, Express.js, React.JS + Tailwind, Node.js).
+Arduino with a C# interface.
 
 ## Branching Strategy:
 For each feature made, create a seperate branch for each task, then make a PR before merging to main.
@@ -17,4 +17,4 @@ For each feature made, create a seperate branch for each task, then make a PR be
 TBA
 
 ## Project Description/Focus:
-TBA
+The focus of the project is creating an ATM system that can be used with a hands-free gesture. 
