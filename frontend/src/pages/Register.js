@@ -7,7 +7,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     customerNumber: "",
     password: "",
-    confirmPassword: "", // New field for confirm password
+    confirmPassword: "",
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,6 +36,13 @@ const Register = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Password validation regex
+  const passwordRequirements = {
+    length: formData.password.length >= 12,
+    number: /\d/.test(formData.password),
+    specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(formData.password),
   };
 
   return (
@@ -98,7 +105,7 @@ const Register = () => {
                         onChange={handleChange}
                         required
                         placeholder="Password"
-                        maxLength="6"
+                        maxLength="16"
                         className="bg-transparent text-white text-lg w-full ml-4 
                                  placeholder-zinc-600 focus:outline-none rounded-xl
                                  relative z-10"
@@ -127,7 +134,7 @@ const Register = () => {
                         onChange={handleChange}
                         required
                         placeholder="Confirm Password"
-                        maxLength="6"
+                        maxLength="16"
                         className="bg-transparent text-white text-lg w-full ml-4 
                                  placeholder-zinc-600 focus:outline-none rounded-xl
                                  relative z-10"
@@ -136,6 +143,31 @@ const Register = () => {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Password Requirements */}
+            <div className="text-white space-y-2">
+              <p
+                className={`${
+                  passwordRequirements.length ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                - Must have 12 characters or more
+              </p>
+              <p
+                className={`${
+                  passwordRequirements.number ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                - Must have a number
+              </p>
+              <p
+                className={`${
+                  passwordRequirements.specialChar ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                - Must have a special character
+              </p>
             </div>
 
             <div className="space-y-6">
@@ -183,6 +215,14 @@ const Register = () => {
                     "REGISTER"
                   )}
                 </span>
+              </button>
+
+              {/* Button to go back to the login page */}
+              <button
+                onClick={() => navigate("/")} //  Login is / (root) at the moment 
+                className="w-full bg-transparent text-lg font-semibold text-white border-2 border-red-500 h-16 rounded-2xl hover:bg-red-500 hover:text-white transition-all duration-300"
+              >
+                Back to Login
               </button>
             </div>
           </form>
