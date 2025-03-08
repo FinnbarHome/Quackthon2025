@@ -2,7 +2,7 @@
 
 ## Functionality: 
 The ATM interface must allow users to perform typical banking functions such as:
-- [ ] Withdrawing money
+- #2
 - Deposit money
 - Check account balance
 - Change PIN
