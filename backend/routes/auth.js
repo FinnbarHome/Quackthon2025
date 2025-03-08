@@ -37,13 +37,21 @@ router.post("/login", async (req, res) => {
 router.post("/register", async (req, res) => {
     const { password } = req.body;
 
+    if (!password || password.length < 6) {
+        return res.status(400).json({ error: "Password must be at least 6 characters long." });
+    }
+
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // Create new user without specifying customerNumber (it will be auto-generated)
         const newUser = new User({ password: hashedPassword });
-        await newUser.save();
 
-        res.status(201).json({ message: "User registered successfully", customerNumber: newUser.customerNumber });
+        await newUser.save();
+        res.status(201).json({ 
+            message: "User registered successfully", 
+            customerNumber: newUser.customerNumber 
+        });
     } catch (err) {
         console.error("❌ Error in registration:", err);
         res.status(500).json({ error: "Server error" });
