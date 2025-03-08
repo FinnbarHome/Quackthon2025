@@ -2,7 +2,7 @@
 
 ## Functionality: 
 The ATM interface must allow users to perform typical banking functions such as:
-- [#2](https://github.com/FinnbarHome/Quackthon2025/issues/2)
+- Withdraw Money [#2](https://github.com/FinnbarHome/Quackthon2025/issues/2) 
 - Deposit money
 - Check account balance
 - Change PIN
