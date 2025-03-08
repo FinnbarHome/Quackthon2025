@@ -2,16 +2,16 @@
 
 ## Functionality: 
 The ATM interface must allow users to perform typical banking functions such as:
-    - Withdrawing money
-    - Deposit money
-    - Check account balance
-    - Change PIN
+- Withdrawing money
+- Deposit money
+- Check account balance
+- Change PIN
 
 ## Security: 
-The ATM must implement secure user authentication (PIN entry) and provide an option to log out.
+- The ATM must implement secure user authentication (PIN entry) and provide an option to log out.
 
 ## Usability: 
-The interface should be user-friendly and intuitive, with clear instructions for users.
+- The interface should be user-friendly and intuitive, with clear instructions for users.
 
 ### Visual Design:
     - A simple screen displaying prompts and user options.
