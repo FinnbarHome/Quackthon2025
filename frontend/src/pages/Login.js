@@ -175,11 +175,11 @@ const Login = () => {
                   ></div>
                 </button>
                 <button
-                  onClick={() => navigate("/Register.js")}
+                  onClick={() => navigate("/register")}
                   className="text-zinc-500 hover:text-white transition-colors 
                            relative group rounded-lg px-2 py-1 overflow-hidden"
                 >
-                  Register Card
+                  Don't have an account register!
                   <div
                     className="absolute -bottom-0.5 left-2 right-2 h-px bg-gradient-to-r 
                                  from-red-500 via-red-400 to-red-500 opacity-0 
