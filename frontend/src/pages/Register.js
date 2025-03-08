@@ -30,7 +30,7 @@ const Register = () => {
 
     try {
       console.log("Registration attempted with:", formData);
-      navigate("/welcome"); // Navigate to a different page after successful registration
+      navigate("/"); // Navigate to a different page after successful registration
     } catch (error) {
       console.error("Registration failed:", error);
     } finally {
