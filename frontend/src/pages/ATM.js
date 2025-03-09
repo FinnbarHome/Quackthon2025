@@ -85,7 +85,7 @@ const ATM = () => {
             <div className="bg-zinc-900/80 px-8 py-6 rounded-2xl">
               <p className="text-zinc-400 text-lg mb-1">Available Balance</p>
               <p className="text-white text-4xl font-semibold">
-                {balance ? `$${balance.toFixed(2)}` : "Loading..."}
+                {balance ? `£${balance.toFixed(2)}` : "Loading..."}
               </p>
             </div>
           </div>

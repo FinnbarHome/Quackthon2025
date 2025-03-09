@@ -83,7 +83,7 @@ const Login = () => {
                 </div>
               </h1>
             </div>
-            <p className="text-zinc-600 text-xl mt-2">Your ATM, Your Way</p>
+            <p className="text-zinc-600 text-xl mt-2">Withdraw that thang</p>
           </div>
 
           {error && (
