@@ -11,6 +11,7 @@ const Auth = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     handleBiometricAuth();
@@ -32,6 +33,8 @@ const Auth = () => {
       });
 
       // If we get here, biometric check was successful
+      setIsLoading(false);
+      setIsSuccess(true);
       setStatusMessage("Identity verified successfully!");
 
       // Wait 2 seconds before navigating
@@ -39,12 +42,11 @@ const Auth = () => {
         navigate("/scan-rfd");
       }, 2000);
     } catch (error) {
+      setIsLoading(false);
       setStatusMessage("Biometric verification failed");
       setTimeout(() => {
         navigate("/");
       }, 2000);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -56,7 +58,11 @@ const Auth = () => {
             <h2 className="text-3xl font-bold text-white mb-4">
               Verifying Identity
             </h2>
-            <p className="text-zinc-400">
+            <p
+              className={`text-lg ${
+                isSuccess ? "text-green-500" : "text-zinc-400"
+              }`}
+            >
               {isLoading
                 ? "Please verify your identity using biometrics"
                 : statusMessage || "Opening authentication prompt..."}
