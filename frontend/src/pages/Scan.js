@@ -34,7 +34,7 @@ const Scan = () => {
         setIsSuccess(true);
         setTimeout(() => {
           navigate("/atm");
-        }, 2000);
+        }, 3500);
       });
     } catch (error) {
       setError("Error scanning NFC: " + error.message);
@@ -50,7 +50,7 @@ const Scan = () => {
       setIsSuccess(true);
       setTimeout(() => {
         navigate("/atm");
-      }, 2000);
+      }, 3500);
     }, 2000);
   };
 
@@ -148,12 +148,20 @@ const Scan = () => {
                   </svg>
                 </div>
               </div>
-              <h2
-                className="text-3xl font-bold text-white animate-reveal"
-                style={{ animationDelay: "0.6s" }}
-              >
-                Scan Successful!
-              </h2>
+              <div className="space-y-2">
+                <h2
+                  className="text-3xl font-bold text-white animate-reveal"
+                  style={{ animationDelay: "0.6s" }}
+                >
+                  Scan Successful!
+                </h2>
+                <p
+                  className="text-2xl text-red-500 animate-fade-up"
+                  style={{ animationDelay: "1.2s", opacity: 0 }}
+                >
+                  Welcome to ATM - QMB
+                </p>
+              </div>
             </div>
           )}
         </div>
