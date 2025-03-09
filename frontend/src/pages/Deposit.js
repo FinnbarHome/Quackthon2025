@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-const WithdrawScreen = () => {
+const DepositScreen = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState("£10");
   const [customAmount, setCustomAmount] = useState("");
   const [showBalance, setShowBalance] = useState(true);
-  const [withdrawalConfirmation, setWithdrawalConfirmation] = useState(false);
+  const [cashDeposited, setCashDeposited] = useState(false);
   const accountBalance = "12,345.00";
   
-  // Handle quick withdrawal buttons
+  // Handle quick deposit buttons
   const handleQuickAmount = (value) => {
     setAmount(`£${value}`);
     setCustomAmount("");
@@ -21,7 +21,7 @@ const WithdrawScreen = () => {
     const value = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
     setCustomAmount(value);
   
-    // Check if the input is valid using re.
+    // Check if the input is valid
     if (/^\d*\.?\d{0,2}$/.test(value) || value === "") {
       setAmount(`£${parseInt(value, 10) || 0}`); // Set the amount to the int
     } else {
@@ -29,20 +29,16 @@ const WithdrawScreen = () => {
     }
   };
   
-  // Show withdrawal confirmation
-  const handleWithdraw = () => {
-    setWithdrawalConfirmation(true);
+  // Handle deposit of funds
+  const handleDeposit = () => {
+    setCashDeposited(true);
   };
   
-  // Complete the withdrawal process
-  const handleConfirmWithdrawal = () => {
-    // alert(`Withdrawing ${amount}`); // Implementation would handle the actual withdrawal
+  // Handle accept deposit after cash is inserted
+  const handleAccept = () => {
+    alert(`Deposited ${amount}`); // Implementation would handle the actual deposit
     navigate("/atm");
   };
-
-  const handleCancelWithdrawal = () => {
-    navigate("/atm") // head back to atm without withdrawing any cash.
-  }
   
   // Navigate back to main screen
   const handleCancel = () => {
@@ -69,11 +65,11 @@ const WithdrawScreen = () => {
             </div>
           </div>
           
-          {!withdrawalConfirmation ? (
+          {!cashDeposited ? (
             <>
-              {/* Quick Withdrawal */}
+              {/* Quick Deposit */}
               <div className="mb-6 animate-reveal" style={{ animationDelay: "100ms" }}>
-                <p className="text-zinc-400 mb-3">Quick Withdrawal:</p>
+                <p className="text-zinc-400 mb-3">Quick Deposit:</p>
                 <div className="grid grid-cols-3 gap-3">
                   {[5, 10, 20, 50, 100, 200].map((value, index) => (
                     <button 
@@ -106,6 +102,13 @@ const WithdrawScreen = () => {
                   />
                 </div>
               </div>
+
+              {/* Deposit Instruction */}
+              <div className="mb-6 animate-reveal" style={{ animationDelay: "650ms" }}>
+                <div className="border-zinc-700 rounded-xl p-4 text-center">
+                  <p className="text-zinc-400 text-sm">(For demonstration purposes only)</p>
+                </div>
+              </div>
               
               {/* Amount Display */}
               <div className="mb-6 animate-reveal" style={{ animationDelay: "600ms" }}>
@@ -114,7 +117,7 @@ const WithdrawScreen = () => {
                   {amount}
                 </div>
               </div>
-              
+
               {/* Action Buttons */}
               <div className="grid grid-cols-2 gap-3 mb-6 animate-reveal" style={{ animationDelay: "700ms" }}>
                 <button 
@@ -125,50 +128,53 @@ const WithdrawScreen = () => {
                   Cancel
                 </button>
                 <button 
-                  onClick={handleWithdraw}
+                  onClick={handleDeposit}
                   className="bg-green-500 text-black font-medium py-3 rounded-xl
                            transition-transform hover:scale-[1.02]"
                 >
-                  Withdraw
+                  Insert Cash
                 </button>
               </div>
             </>
           ) : (
             <>
-              {/* Withdrawal Confirmation */}
+              {/* Cash Deposited Info */}
               <div className="mb-6 animate-reveal">
                 <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-6">
-                  <h2 className="text-white text-xl mb-4 text-center">Withdraw Cash</h2>
+                  <h2 className="text-white text-xl mb-4 text-center">Deposit Cash</h2>
                   <p className="text-zinc-300 mb-3 text-center">
-                    Are you sure you want to withdraw?
+                    Cash has been inserted into the slot
                   </p>
                   
                   <div className="flex justify-between items-center mb-4 border-t border-b border-zinc-700 py-4">
-                    <span className="text-zinc-400">Amount:</span>
+                    <span className="text-zinc-400">Cash Deposited:</span>
                     <span className="text-white font-medium">{amount}</span>
                   </div>
                   
                   <p className="text-zinc-400 text-sm text-center mb-4">
-                    Please confirm your withdrawl or cancel
+                    Please accept to confirm the deposit
                   </p>
+                  
                   <div className="grid grid-cols-2 gap-3">
-                    <button
-                        onClick={handleCancelWithdrawal}
-                        className="bg-yellow-500 text-black font-medium py-3 rounded-xl
-                        transition-transform hover:scale-[1.02]"
-                    > Cancel
-                </button>
-                <button
-                    onClick={handleConfirmWithdrawal}
-                    className="bg-green-500 text-black font-medium py-3 rounded-xl
-                    transition-transform hover:scale-[1.02]"
-                    > Confirm
-                </button>
-            </div>
-        </div>
-    </div>
-    </>
-        )}
+                    <button 
+                      onClick={handleCancel}
+                      className="bg-yellow-500 text-black font-medium py-3 rounded-xl
+                               transition-transform hover:scale-[1.02]"
+                    >
+                      Cancel
+                    </button>
+                    <button 
+                      onClick={handleAccept}
+                      className="bg-green-500 text-black font-medium py-3 rounded-xl
+                               transition-transform hover:scale-[1.02]"
+                    >
+                      Accept
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
           
           {/* Balance */}
           <div className="animate-reveal" style={{ animationDelay: "800ms" }}>
@@ -195,4 +201,4 @@ const WithdrawScreen = () => {
   );
 };
 
-export default WithdrawScreen;
+export default DepositScreen;
