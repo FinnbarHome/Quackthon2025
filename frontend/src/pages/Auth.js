@@ -27,132 +27,31 @@ const Auth = () => {
 
   const handleBiometricAuth = async () => {
     try {
-      setIsLoading(true);
-      log("Starting biometric check...");
-
-      // Check secure context
-      log(`Secure context: ${window.isSecureContext}`);
-      log(`Current protocol: ${window.location.protocol}`);
-      log(`Current hostname: ${window.location.hostname}`);
-      log(`User Agent: ${navigator.userAgent}`);
-
-      // Check WebAuthn support
-      const webAuthnSupported = browserSupportsWebAuthn();
-      log(`WebAuthn supported: ${webAuthnSupported}`);
-      log(`PublicKeyCredential available: ${!!window.PublicKeyCredential}`);
-
-      if (!webAuthnSupported) {
-        log("WebAuthn is not supported");
-        setDebugMessage(
-          "WebAuthn is not supported. This could be because:\n" +
-            "1. Not using HTTPS/localhost\n" +
-            "2. Chrome permissions not granted\n" +
-            "3. Chrome version too old"
-        );
-        navigate("/");
-        return;
-      }
-
-      // Check if platform authenticator is available (biometric sensors)
-      try {
-        const platformAuthAvailable = await platformAuthenticatorIsAvailable();
-        log(`Platform authenticator details:`);
-        log(`- Available: ${platformAuthAvailable}`);
-        if (window.PublicKeyCredential) {
-          const isUserVerifyingPlatformAuthenticatorAvailable =
-            await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
-          log(
-            `- User verifying platform authenticator: ${isUserVerifyingPlatformAuthenticatorAvailable}`
-          );
-        }
-
-        if (!platformAuthAvailable) {
-          log("Platform authenticator is not available");
-          setDebugMessage(
-            "Biometric authentication is not available on this device"
-          );
-          navigate("/");
-          return;
-        }
-      } catch (error) {
-        log(`Error checking platform authenticator: ${error.message}`);
-        setDebugMessage(
-          `Error checking biometric availability: ${error.message}`
-        );
-        navigate("/");
-        return;
-      }
-
-      // Add debug logging for credentials
-      const storedCredentials = localStorage.getItem("userCredentials");
-      log(`Stored credentials: ${storedCredentials}`);
-
-      if (!storedCredentials) {
-        log("No stored credentials");
-        navigate("/");
-        return;
-      }
-
-      const { id, username } = JSON.parse(storedCredentials);
-      log(`Parsed ID: ${id}, Username: ${username}`);
-
-      // Create the credential options
-      const publicKeyCredentialCreationOptions = {
+      const publicKeyCredentialRequestOptions = {
         challenge: window.crypto.getRandomValues(new Uint8Array(32)),
-        rp: {
-          name: "Bank Tuah",
-        },
-        user: {
-          id: new TextEncoder().encode(id),
-          name: username,
-          displayName: username,
-        },
-        pubKeyCredParams: [
-          {
-            type: "public-key",
-            alg: -7, // ES256
-          },
-          {
-            type: "public-key",
-            alg: -257, // RS256
-          },
-        ],
-        authenticatorSelection: {
-          authenticatorAttachment: "platform",
-          userVerification: "required",
-        },
         timeout: 60000,
+        userVerification: "required",
       };
 
-      log("Starting registration...");
+      log("Starting biometric check...");
       try {
-        const credential = await navigator.credentials.create({
-          publicKey: publicKeyCredentialCreationOptions,
+        // Just try to get credentials - this will trigger biometric prompt
+        const assertion = await navigator.credentials.get({
+          publicKey: publicKeyCredentialRequestOptions,
         });
 
-        if (credential) {
-          log("Registration successful!");
-          console.log("Credential:", credential);
-
-          // Store the credential ID
-          localStorage.setItem("credentialId", credential.id);
-
-          navigate("/scan-rfd");
-        } else {
-          throw new Error("No credential returned");
-        }
+        // If we get here, biometric check was successful
+        log("Biometric verification successful!");
+        navigate("/scan-rfd"); // Navigate to next screen on success
       } catch (error) {
-        log(`Registration error: ${error.message}`);
-        console.error("Registration failed:", error);
-        setDebugMessage(`Registration failed: ${error.message}`);
+        log(`Biometric verification failed: ${error.message}`);
+        setDebugMessage("Biometric verification failed");
+        navigate("/"); // Navigate back on failure
       }
     } catch (error) {
       log(`Process error: ${error.message}`);
-      console.error("Process failed:", error);
       setDebugMessage(`Process failed: ${error.message}`);
       navigate("/");
-    } finally {
-      setIsLoading(false);
     }
   };
 
