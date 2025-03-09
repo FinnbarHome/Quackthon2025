@@ -5,7 +5,7 @@ import { FaLock, FaUserAlt } from "react-icons/fa";
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    customerNumber: "",
+    userEmail: "",
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -66,11 +66,11 @@ const Login = () => {
                       <FaUserAlt className="text-red-500 text-lg" />
                       <input
                         type="text"
-                        name="customerNumber"
-                        value={formData.customerNumber}
+                        name="userEmail"
+                        value={formData.userEmail}
                         onChange={handleChange}
                         required
-                        placeholder="Customer Number"
+                        placeholder="Email"
                         className="bg-transparent text-white text-lg w-full ml-4 
                                  placeholder-zinc-600 focus:outline-none rounded-xl
                                  relative z-10"

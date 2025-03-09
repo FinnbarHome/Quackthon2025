@@ -5,7 +5,7 @@ import { FaLock, FaUserAlt } from "react-icons/fa";
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    customerNumber: "",
+    userEmail: "",
     password: "",
     confirmPassword: "",
   });
@@ -40,17 +40,17 @@ const Register = () => {
 
   // Password validation regex
   const passwordRequirements = {
-    length: formData.password.length >= 12,
-    number: /\d/.test(formData.password),
-    specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(formData.password),
+    length: formData.password.length >= 12, // At least 12 characters or more.
+    number: /\d/.test(formData.password), // At least 1 number.
+    specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(formData.password), // At least one special character from the list.
   };
 
   return (
-    <div className="min-h-screen bg-black flex font-viga">
-      <div className="w-full flex items-center justify-center p-8">
+    <div className="min-h-screen bg-black flex justify-center items-center font-viga"> 
+      <div className="w-full flex p-8">
         <div className="w-full max-w-md">
           <div className="mb-20 relative content-hidden animate-reveal">
-            <h1 className="text-8xl font-black tracking-tighter leading-none font-alatsi">
+            <h1 className="text-8xl sm:text-6xl font-black tracking-tighter leading-none font-alatsi"> {/* Modify the Register Text to fit smaller screens.*/}
               <span className="text-white relative z-10">REGISTER</span>
             </h1>
             <p className="text-zinc-600 text-xl mt-2">Create your account</p>
@@ -72,11 +72,11 @@ const Register = () => {
                       <FaUserAlt className="text-red-500 text-lg" />
                       <input
                         type="text"
-                        name="customerNumber"
-                        value={formData.customerNumber}
+                        name="userEmail"
+                        value={formData.userEmail}
                         onChange={handleChange}
                         required
-                        placeholder="Customer Number"
+                        placeholder="Email"
                         className="bg-transparent text-white text-lg w-full ml-4 
                                  placeholder-zinc-600 focus:outline-none rounded-xl
                                  relative z-10"
