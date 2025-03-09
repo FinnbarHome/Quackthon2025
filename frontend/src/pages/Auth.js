@@ -1,11 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  startAuthentication,
-  startRegistration,
-  browserSupportsWebAuthn,
-  platformAuthenticatorIsAvailable,
-} from "@simplewebauthn/browser";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -21,15 +15,35 @@ const Auth = () => {
     try {
       setIsLoading(true);
 
-      const publicKeyCredentialRequestOptions = {
+      const publicKeyCredentialCreationOptions = {
         challenge: window.crypto.getRandomValues(new Uint8Array(32)),
+        rp: {
+          name: "Bank Tuah",
+        },
+        user: {
+          id: new TextEncoder().encode("testuser"),
+          name: "testuser",
+          displayName: "Test User",
+        },
+        pubKeyCredParams: [
+          {
+            type: "public-key",
+            alg: -7,
+          },
+          {
+            type: "public-key",
+            alg: -257,
+          },
+        ],
+        authenticatorSelection: {
+          authenticatorAttachment: "platform",
+          userVerification: "required",
+        },
         timeout: 60000,
-        userVerification: "required",
       };
 
-      // Try to get credentials - this will trigger biometric prompt
-      const assertion = await navigator.credentials.get({
-        publicKey: publicKeyCredentialRequestOptions,
+      const credential = await navigator.credentials.create({
+        publicKey: publicKeyCredentialCreationOptions,
       });
 
       // If we get here, biometric check was successful
@@ -39,7 +53,7 @@ const Auth = () => {
 
       // Wait 2 seconds before navigating
       setTimeout(() => {
-        navigate("/scan-rfd");
+        navigate("/scan");
       }, 2000);
     } catch (error) {
       setIsLoading(false);

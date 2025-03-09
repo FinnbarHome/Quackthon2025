@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const { VercelRequest, VercelResponse } = require("@vercel/node"); // Required for Vercel
 
 const authRoutes = require("../routes/auth");
 const atmRoutes = require("../routes/atm");
@@ -11,22 +10,40 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB (Avoid multiple connections in Serverless)
-let isConnected = false;
+// ✅ Ensure MongoDB connects only once (fixes timeout issue)
+let isConnected = false; // Track MongoDB connection status
+
 async function connectDB() {
-    if (!isConnected) {
-        await mongoose.connect(process.env.MONGO_URI);
+    if (isConnected) {
+        console.log("✅ Using existing MongoDB connection");
+        return;
+    }
+    try {
+        await mongoose.connect(process.env.MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
         isConnected = true;
         console.log("✅ Connected to MongoDB");
+    } catch (err) {
+        console.error("❌ MongoDB Connection Error:", err);
     }
 }
 
-// Define routes
+// Connect to DB before server starts
+connectDB();
+
+// 🔹 API Route to check if backend is working
+app.get("/", (req, res) => {
+    res.json({ message: "✅ API is working on Render!" });
+});
+
+// Attach routes
 app.use("/api/auth", authRoutes);
 app.use("/api/atm", atmRoutes);
 
-// Vercel requires a function export
-module.exports = async (req, res) => {
-    await connectDB(); // Ensure DB is connected
-    return app(req, res); // Pass request to Express app
-};
+// ✅ Start the Express server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+});
