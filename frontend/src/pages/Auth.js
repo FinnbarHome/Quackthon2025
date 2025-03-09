@@ -10,16 +10,7 @@ import {
 const Auth = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [debugMessage, setDebugMessage] = useState("");
-  const [logs, setLogs] = useState([]);
-
-  const log = (message) => {
-    console.log(message);
-    setLogs((prev) => [
-      ...prev,
-      `${new Date().toLocaleTimeString()}: ${message}`,
-    ]);
-  };
+  const [statusMessage, setStatusMessage] = useState("");
 
   useEffect(() => {
     handleBiometricAuth();
@@ -27,31 +18,33 @@ const Auth = () => {
 
   const handleBiometricAuth = async () => {
     try {
+      setIsLoading(true);
+
       const publicKeyCredentialRequestOptions = {
         challenge: window.crypto.getRandomValues(new Uint8Array(32)),
         timeout: 60000,
         userVerification: "required",
       };
 
-      log("Starting biometric check...");
-      try {
-        // Just try to get credentials - this will trigger biometric prompt
-        const assertion = await navigator.credentials.get({
-          publicKey: publicKeyCredentialRequestOptions,
-        });
+      // Try to get credentials - this will trigger biometric prompt
+      const assertion = await navigator.credentials.get({
+        publicKey: publicKeyCredentialRequestOptions,
+      });
 
-        // If we get here, biometric check was successful
-        log("Biometric verification successful!");
-        navigate("/scan-rfd"); // Navigate to next screen on success
-      } catch (error) {
-        log(`Biometric verification failed: ${error.message}`);
-        setDebugMessage("Biometric verification failed");
-        navigate("/"); // Navigate back on failure
-      }
+      // If we get here, biometric check was successful
+      setStatusMessage("Identity verified successfully!");
+
+      // Wait 2 seconds before navigating
+      setTimeout(() => {
+        navigate("/scan-rfd");
+      }, 2000);
     } catch (error) {
-      log(`Process error: ${error.message}`);
-      setDebugMessage(`Process failed: ${error.message}`);
-      navigate("/");
+      setStatusMessage("Biometric verification failed");
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -66,12 +59,8 @@ const Auth = () => {
             <p className="text-zinc-400">
               {isLoading
                 ? "Please verify your identity using biometrics"
-                : "Opening authentication prompt..."}
+                : statusMessage || "Opening authentication prompt..."}
             </p>
-            {/* Debug message display */}
-            {debugMessage && (
-              <p className="text-sm text-red-500 mt-2">{debugMessage}</p>
-            )}
           </div>
 
           <button
@@ -80,17 +69,6 @@ const Auth = () => {
           >
             Cancel
           </button>
-        </div>
-
-        <div className="w-full max-w-md mt-8 p-4 bg-zinc-900 rounded-lg">
-          <h3 className="text-white text-sm font-mono mb-2">Debug Console:</h3>
-          <div className="h-48 overflow-y-auto">
-            {logs.map((log, index) => (
-              <p key={index} className="text-xs font-mono text-zinc-400 mb-1">
-                {log}
-              </p>
-            ))}
-          </div>
         </div>
       </div>
     </div>
