@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
 import Login from "./pages/Login";
 import Auth from "./pages/Auth";
-import "./App.css";
 import Register from './pages/Register';
+import ATM from "./pages/ATM";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/atm" element={<ATM />} />
         {/* Add other routes here */}
       </Routes>
     </BrowserRouter>
