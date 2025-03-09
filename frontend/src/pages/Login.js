@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaUserAlt } from "react-icons/fa";
 import ApiClient from "../utils/apiClient";
@@ -6,13 +6,24 @@ import { useUser } from "../contexts/UserContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { user, updateUser } = useUser();
   const [formData, setFormData] = useState({
     customerNumber: "",
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { updateUser } = useUser();
+
+  useEffect(() => {
+    const savedCredentials = localStorage.getItem("userCredentials");
+    if (savedCredentials) {
+      const credentials = JSON.parse(savedCredentials);
+      if (credentials.token) {
+        updateUser(credentials);
+        navigate("/auth");
+      }
+    }
+  }, [navigate, updateUser]);
 
   const handleChange = (e) => {
     setFormData({
