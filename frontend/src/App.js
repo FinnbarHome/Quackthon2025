@@ -7,6 +7,7 @@ import ATM from "./pages/ATM";
 import Withdraw from "./pages/Withdraw";
 import Scan from "./pages/Scan";
 import Deposit from "./pages/Deposit";
+import Pin from "./pages/Pin";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
         <Route path="/withdraw" element={<Withdraw />} />
         <Route path="/deposit" element={<Deposit />} />
         <Route path="/scan" element={<Scan />} />
-        {/* Add other routes here */}
+        <Route path="/pin" element={<Pin />} />
       </Routes>
     </BrowserRouter>
   );
