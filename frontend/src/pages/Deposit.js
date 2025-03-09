@@ -41,7 +41,6 @@ const DepositScreen = () => {
   };
 
   // Handle accept deposit after cash is inserted
-
   const handleAccept = async () => {
     setIsLoading(true);
     setError("");
@@ -93,19 +92,12 @@ const DepositScreen = () => {
     } finally {
       setIsLoading(false);
     }
-    
-  const handleAccept = () => {
-    navigate("/atm");
   };
 
   // Navigate back to main screen
   const handleCancel = () => {
     navigate("/atm");
   };
-
-  // Calculate the future balance
-  const futureBalance =
-    parseFloat(accountBalance) + parseFloat(amount.replace("£", ""));
 
   return (
     <div className="min-h-screen bg-black flex font-viga">
@@ -181,9 +173,12 @@ const DepositScreen = () => {
                   />
                 </div>
               </div>
-    
+
               {/* Amount Display */}
-              <div className="mb-6 animate-reveal" style={{ animationDelay: "600ms" }}>
+              <div
+                className="mb-6 animate-reveal"
+                style={{ animationDelay: "600ms" }}
+              >
                 <p className="text-zinc-400 mb-2">Amount:</p>
                 <div className="text-right text-white text-xl font-medium pr-2">
                   {amount}
