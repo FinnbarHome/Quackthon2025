@@ -53,7 +53,7 @@ const Auth = () => {
 
       // Wait 2 seconds before navigating
       setTimeout(() => {
-        navigate("/scan-rfd");
+        navigate("/scan");
       }, 2000);
     } catch (error) {
       setIsLoading(false);
