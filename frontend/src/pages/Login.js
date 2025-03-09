@@ -7,7 +7,7 @@ import { useUser } from "../contexts/UserContext";
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: "",
+    customerNumber: "",
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +27,7 @@ const Login = () => {
     setError("");
     try {
       const data = await ApiClient.post("/api/auth/login", {
-        email: formData.email,
+        customerNumber: formData.customerNumber,
         password: formData.password,
       });
 
@@ -36,29 +36,14 @@ const Login = () => {
 
       // Create a user object with all the data we want to store
       const userCredentials = {
-        customerNumber: formData.customerNumber, // Use the input value since we know it's correct
+        customerNumber: formData.customerNumber,
         token: data.token,
-        balance: data.balance || 0, // Add default value in case balance is undefined
+        balance: data.balance || 0,
       };
 
       // Update both localStorage and context
       localStorage.setItem("userCredentials", JSON.stringify(userCredentials));
       updateUser(userCredentials);
-
-      // Log to verify data is being stored
-      console.log("Stored credentials:", userCredentials);
-      console.log(
-        "LocalStorage after storing:",
-        localStorage.getItem("userCredentials")
-      localStorage.setItem(
-        "userCredentials",
-        JSON.stringify({
-          id: data.email,
-          username: data.email,
-          balance: data.balance,
-        })
-
-      );
 
       navigate("/auth");
     } catch (error) {
@@ -115,11 +100,11 @@ const Login = () => {
                       <FaUserAlt className="text-red-500 text-lg" />
                       <input
                         type="text"
-                        name="email"
-                        value={formData.email}
+                        name="customerNumber"
+                        value={formData.customerNumber}
                         onChange={handleChange}
                         required
-                        placeholder="E-mail"
+                        placeholder="Customer Number"
                         className="bg-transparent text-white text-lg w-full ml-4 
                                  placeholder-zinc-600 focus:outline-none rounded-xl
                                  relative z-10"
