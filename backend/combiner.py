@@ -2,7 +2,7 @@ import os
 
 # Define directories to search
 ROOT_DIR = os.getcwd()
-TARGET_DIRECTORIES = ["models", "middleware", "routes"]
+TARGET_DIRECTORIES = ["models", "middleware", "routes", "api"]
 OUTPUT_FILE = "all_js_files.txt"
 
 def get_js_files(directory, recursive=True):
