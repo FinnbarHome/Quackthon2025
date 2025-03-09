@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 const WithdrawScreen = () => {
   const navigate = useNavigate();
-  const [amount, setAmount] = useState("£10");
+  const [amount, setAmount] = useState("£0");
   const [customAmount, setCustomAmount] = useState("");
-  const [showBalance, setShowBalance] = useState(true);
+  const [showBalance, setShowBalance] = useState(false);
   const [withdrawalConfirmation, setWithdrawalConfirmation] = useState(false);
   const accountBalance = "12,345.00";
   

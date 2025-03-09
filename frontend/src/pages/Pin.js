@@ -7,7 +7,7 @@ const PinChangeScreen = () => {
   const [newPin, setNewPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
   const [activeInput, setActiveInput] = useState(null);
-  const [showBalance, setShowBalance] = useState(true);
+  const [showBalance, setShowBalance] = useState(false);
   const accountBalance = "12,345.00";
   
   // Handle PIN input with 4 character limit

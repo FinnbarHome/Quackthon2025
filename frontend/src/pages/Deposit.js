@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 const DepositScreen = () => {
   const navigate = useNavigate();
-  const [amount, setAmount] = useState("£10");
+  const [amount, setAmount] = useState("£0");
   const [customAmount, setCustomAmount] = useState("");
-  const [showBalance, setShowBalance] = useState(true);
+  const [showBalance, setShowBalance] = useState(false);
   const [cashDeposited, setCashDeposited] = useState(false);
   const accountBalance = "12,345.00";
   
@@ -100,13 +100,6 @@ const DepositScreen = () => {
                              text-white px-8 py-3 focus:outline-none focus:border-red-500"
                     placeholder="0"
                   />
-                </div>
-              </div>
-
-              {/* Deposit Instruction */}
-              <div className="mb-6 animate-reveal" style={{ animationDelay: "650ms" }}>
-                <div className="border-zinc-700 rounded-xl p-4 text-center">
-                  <p className="text-zinc-400 text-sm">(For demonstration purposes only)</p>
                 </div>
               </div>
               

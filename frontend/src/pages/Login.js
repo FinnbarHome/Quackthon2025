@@ -125,7 +125,7 @@ const Login = () => {
                 className="w-full bg-red-500 h-16 text-lg font-semibold text-white
                          relative overflow-hidden rounded-2xl group
                          transition-transform duration-300 hover:scale-[1.02]
-                         content-hidden animate-reveal"
+                         content-hidden animate-reveal "
                 style={{ animationDelay: "600ms" }}
               >
                 <span className="relative z-10 inline-flex items-center">
