@@ -4,20 +4,29 @@ const Transaction = require("../models/Transaction");
 const authMiddleware = require("../middleware/authMiddleware");
 const router = express.Router();
 
-// Helper function to validate transactions
-const validateTransaction = (customerNumber, amount) => {
-    if (!customerNumber || typeof amount !== "number" || amount <= 0) {
-        return { error: "Invalid input. Customer number and positive amount required." };
+let pendingTransactions = {};  // Store pending transactions per ATM
+
+// 🔹 Get pending transactions for an ATM
+router.get("/pending/:atmId", async (req, res) => {
+    const { atmId } = req.params;
+
+    if (!pendingTransactions[atmId] || pendingTransactions[atmId].length === 0) {
+        return res.json({ transactions: [] });  // No pending transactions
     }
-    return null;
-};
 
-// Withdraw Money
+    // Return and clear pending transactions
+    const transactions = [...pendingTransactions[atmId]];
+    pendingTransactions[atmId] = [];
+    res.json({ transactions });
+});
+
+// 🔹 Withdraw Money
 router.post("/withdraw", authMiddleware, async (req, res) => {
-    const { customerNumber, amount } = req.body;
+    const { atmId, customerNumber, amount } = req.body;
 
-    const validationError = validateTransaction(customerNumber, amount);
-    if (validationError) return res.status(400).json(validationError);
+    if (!atmId || !customerNumber || !amount || amount <= 0) {
+        return res.status(400).json({ error: "ATM ID, customer number, and valid amount required." });
+    }
 
     try {
         const user = await User.findOne({ customerNumber });
@@ -25,39 +34,44 @@ router.post("/withdraw", authMiddleware, async (req, res) => {
 
         if (user.balance < amount) return res.status(400).json({ error: "Insufficient funds" });
 
-        // Deduct from balance
         user.balance -= amount;
         await user.save();
 
-        // Log transaction
         await Transaction.create({ userId: user._id, type: "withdraw", amount });
 
-        res.json({ message: "Withdrawal successful", newBalance: user.balance });
+        // Store transaction in pending queue
+        if (!pendingTransactions[atmId]) pendingTransactions[atmId] = [];
+        pendingTransactions[atmId].push({ action: "withdraw", amount });
+
+        res.json({ message: "Withdrawal scheduled", newBalance: user.balance });
     } catch (err) {
         console.error("❌ Error in withdrawal:", err);
         res.status(500).json({ error: "Server error" });
     }
 });
 
-// Deposit Money
+// 🔹 Deposit Money
 router.post("/deposit", authMiddleware, async (req, res) => {
-    const { customerNumber, amount } = req.body;
+    const { atmId, customerNumber, amount } = req.body;
 
-    const validationError = validateTransaction(customerNumber, amount);
-    if (validationError) return res.status(400).json(validationError);
+    if (!atmId || !customerNumber || !amount || amount <= 0) {
+        return res.status(400).json({ error: "ATM ID, customer number, and valid amount required." });
+    }
 
     try {
         const user = await User.findOne({ customerNumber });
         if (!user) return res.status(404).json({ error: "User not found" });
 
-        // Add deposit to balance
         user.balance += amount;
         await user.save();
 
-        // Log transaction
         await Transaction.create({ userId: user._id, type: "deposit", amount });
 
-        res.json({ message: "Deposit successful", newBalance: user.balance });
+        // Store transaction in pending queue
+        if (!pendingTransactions[atmId]) pendingTransactions[atmId] = [];
+        pendingTransactions[atmId].push({ action: "deposit", amount });
+
+        res.json({ message: "Deposit scheduled", newBalance: user.balance });
     } catch (err) {
         console.error("❌ Error in deposit:", err);
         res.status(500).json({ error: "Server error" });
