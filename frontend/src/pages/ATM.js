@@ -7,6 +7,11 @@ const ATM = () => {
   const accountBalance = "1,234.56";
   const atmLocation = "Perth Road ATM"; 
 
+// Navigation of the list items
+  const handleWithdraw = () => {
+    navigate('/withdraw');
+  };
+
   return (
     <div className="min-h-screen bg-black flex font-sans">
       <div className="w-full flex items-center justify-center p-8">
@@ -31,7 +36,9 @@ const ATM = () => {
           {/* Main actions */}
           <div className="space-y-4 mb-8">
             <div className="animate-reveal" style={{ animationDelay: "200ms" }}>
-              <button className="w-full group">
+              <button
+                onClick={handleWithdraw} 
+                className="w-full group">
                 <div className="flex items-center bg-zinc-900/50 h-16 px-6 rounded-2xl 
                           backdrop-blur-sm transition-all duration-300
                           group-hover:bg-zinc-800/50">
