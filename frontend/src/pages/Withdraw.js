@@ -20,23 +20,21 @@ const WithdrawScreen = () => {
     const value = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
     setCustomAmount(value);
   
-    // Check if the input is valid (numbers and optional one decimal)
+    // Check if the input is valid using re.
     if (/^\d*\.?\d{0,2}$/.test(value) || value === "") {
-      setAmount(`£${parseInt(value, 10) || 0}`); // Corrected string interpolation with backticks
+      setAmount(`£${parseInt(value, 10) || 0}`); // Set the amount to the int
     } else {
-      setAmount(value ? `£${parseInt(value, 10) || 0}` : "£0"); // Fixed string interpolation here too
+      setAmount(value ? `£${parseInt(value, 10) || 0}` : "£0"); // if the amount is empty, set it to £0 rather than NaN.
     }
   };
   
-  // Handle withdrawal (would connect to actual logic in real app)
+  // HANDLE WITHDRAWL OF FUNDS HERE!!!
   const handleWithdraw = () => {
-    alert(`Withdrawing ${amount}`);
-    // Implementation would handle the actual withdrawal
+    alert(`Withdrawing ${amount}`); // Implementation would handle the actual withdrawal
   };
   
   // Navigate back to main screen
   const handleCancel = () => {
-    // In a real app, this would use react-router to navigate back
     navigate("/atm");
   };
 
