@@ -5,6 +5,7 @@ import ApiClient from "../utils/apiClient";
 
 const WithdrawScreen = () => {
   const navigate = useNavigate();
+
   const { user, updateUser } = useUser();
   const [amount, setAmount] = useState("£10");
   const [customAmount, setCustomAmount] = useState("");
@@ -14,7 +15,12 @@ const WithdrawScreen = () => {
   const accountBalance = user?.balance || 0;
   const [transactionComplete, setTransactionComplete] = useState(false);
 
-  // Handle quick withdraw buttons
+
+  const [showBalance, setShowBalance] = useState(false);
+  const [withdrawalConfirmation, setWithdrawalConfirmation] = useState(false);
+
+  
+  // Handle quick withdrawal buttons
   const handleQuickAmount = (value) => {
     setAmount(`£${value}`);
     setCustomAmount("");

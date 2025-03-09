@@ -7,7 +7,7 @@ import { useUser } from "../contexts/UserContext";
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    customerNumber: "",
+    email: "",
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +27,7 @@ const Login = () => {
     setError("");
     try {
       const data = await ApiClient.post("/api/auth/login", {
-        customerNumber: formData.customerNumber,
+        email: formData.email,
         password: formData.password,
       });
 
@@ -50,6 +50,14 @@ const Login = () => {
       console.log(
         "LocalStorage after storing:",
         localStorage.getItem("userCredentials")
+      localStorage.setItem(
+        "userCredentials",
+        JSON.stringify({
+          id: data.email,
+          username: data.email,
+          balance: data.balance,
+        })
+
       );
 
       navigate("/auth");
@@ -107,11 +115,11 @@ const Login = () => {
                       <FaUserAlt className="text-red-500 text-lg" />
                       <input
                         type="text"
-                        name="customerNumber"
-                        value={formData.customerNumber}
+                        name="email"
+                        value={formData.email}
                         onChange={handleChange}
                         required
-                        placeholder="Customer Number"
+                        placeholder="E-mail"
                         className="bg-transparent text-white text-lg w-full ml-4 
                                  placeholder-zinc-600 focus:outline-none rounded-xl
                                  relative z-10"
@@ -157,7 +165,7 @@ const Login = () => {
                 className="w-full bg-red-500 h-16 text-lg font-semibold text-white
                          relative overflow-hidden rounded-2xl group
                          transition-transform duration-300 hover:scale-[1.02]
-                         content-hidden animate-reveal"
+                         content-hidden animate-reveal "
                 style={{ animationDelay: "600ms" }}
               >
                 <span className="relative z-10 inline-flex items-center">

@@ -9,7 +9,7 @@ const DepositScreen = () => {
   const { user, updateUser } = useUser();
   const [amount, setAmount] = useState("£10");
   const [customAmount, setCustomAmount] = useState("");
-  const [showBalance, setShowBalance] = useState(true);
+  const [showBalance, setShowBalance] = useState(false);
   const [cashDeposited, setCashDeposited] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -41,6 +41,7 @@ const DepositScreen = () => {
   };
 
   // Handle accept deposit after cash is inserted
+
   const handleAccept = async () => {
     setIsLoading(true);
     setError("");
@@ -92,6 +93,9 @@ const DepositScreen = () => {
     } finally {
       setIsLoading(false);
     }
+    
+  const handleAccept = () => {
+    navigate("/atm");
   };
 
   // Navigate back to main screen
@@ -175,6 +179,14 @@ const DepositScreen = () => {
                              text-white px-8 py-3 focus:outline-none focus:border-red-500"
                     placeholder="Enter amount"
                   />
+                </div>
+              </div>
+    
+              {/* Amount Display */}
+              <div className="mb-6 animate-reveal" style={{ animationDelay: "600ms" }}>
+                <p className="text-zinc-400 mb-2">Amount:</p>
+                <div className="text-right text-white text-xl font-medium pr-2">
+                  {amount}
                 </div>
               </div>
 
