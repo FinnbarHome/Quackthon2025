@@ -106,7 +106,7 @@ const Login = () => {
                         value={formData.password}
                         onChange={handleChange}
                         required
-                        placeholder="PIN"
+                        placeholder="Password"
                         maxLength="6"
                         className="bg-transparent text-white text-lg w-full ml-4 
                                  placeholder-zinc-600 focus:outline-none rounded-xl
@@ -174,7 +174,7 @@ const Login = () => {
                   className="text-zinc-500 hover:text-white transition-colors 
                            relative group rounded-lg px-2 py-1 overflow-hidden"
                 >
-                  Forgot PIN
+                  Forgot Password
                   <div
                     className="absolute -bottom-0.5 left-2 right-2 h-px bg-gradient-to-r 
                                  from-red-500 via-red-400 to-red-500 opacity-0 
