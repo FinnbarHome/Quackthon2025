@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
-const int withdrawLED = 9;  // Simulates cash being dispensed
-const int depositLED = 10;   // Simulates cash being deposited
+const int withdrawLED = 9;  
+const int depositLED = 10;  
 
 void setup() {
     Serial.begin(9600);
@@ -15,29 +15,16 @@ void loop() {
         command.trim();
 
         if (command.startsWith("withdraw:")) {
-            int amount = command.substring(9).toInt();
-            Serial.print("Processing withdrawal of $");
-            Serial.println(amount);
-            
             digitalWrite(withdrawLED, HIGH);
-            delay(2000);  // Simulating cash dispense
+            delay(2000);  
             digitalWrite(withdrawLED, LOW);
-            
             Serial.println("withdraw_complete");
         }
         else if (command.startsWith("deposit:")) {
-            int amount = command.substring(8).toInt();
-            Serial.print("Processing deposit of $");
-            Serial.println(amount);
-            
             digitalWrite(depositLED, HIGH);
-            delay(2000);  // Simulating deposit
+            delay(2000);  
             digitalWrite(depositLED, LOW);
-            
             Serial.println("deposit_complete");
-        }
-        else {
-            Serial.println("Invalid command");
         }
     }
 }
