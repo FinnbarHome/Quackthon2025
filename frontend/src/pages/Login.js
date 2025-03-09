@@ -6,7 +6,7 @@ import ApiClient from "../utils/apiClient";
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    customerNumber: "",
+    email: "",
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +25,7 @@ const Login = () => {
     setError("");
     try {
       const data = await ApiClient.post("/api/auth/login", {
-        customerNumber: formData.customerNumber,
+        email: formData.email,
         password: formData.password,
       });
 
@@ -34,8 +34,8 @@ const Login = () => {
       localStorage.setItem(
         "userCredentials",
         JSON.stringify({
-          id: data.customerNumber,
-          username: data.customerNumber,
+          id: data.email,
+          username: data.email,
           balance: data.balance,
         })
       );
@@ -95,11 +95,11 @@ const Login = () => {
                       <FaUserAlt className="text-red-500 text-lg" />
                       <input
                         type="text"
-                        name="customerNumber"
-                        value={formData.customerNumber}
+                        name="email"
+                        value={formData.email}
                         onChange={handleChange}
                         required
-                        placeholder="Customer Number"
+                        placeholder="E-mail"
                         className="bg-transparent text-white text-lg w-full ml-4 
                                  placeholder-zinc-600 focus:outline-none rounded-xl
                                  relative z-10"

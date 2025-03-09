@@ -6,7 +6,6 @@ const PinChangeScreen = () => {
   const [currentPin, setCurrentPin] = useState("");
   const [newPin, setNewPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
-  const [activeInput, setActiveInput] = useState(null);
   const [showBalance, setShowBalance] = useState(false);
   const accountBalance = "12,345.00";
   
@@ -88,8 +87,6 @@ const PinChangeScreen = () => {
                 className="w-full bg-zinc-900/50 border border-zinc-700 rounded-xl 
                           text-white px-4 py-3 focus:outline-none focus:border-red-500"
                 placeholder="Current Pin" 
-                onFocus={() => setActiveInput("current")}
-                onBlur={() => setActiveInput(null)}
               />
             </div>
             
@@ -102,8 +99,6 @@ const PinChangeScreen = () => {
                 className="w-full bg-zinc-900/50 border border-zinc-700 rounded-xl 
                           text-white px-4 py-3 focus:outline-none focus:border-red-500"
                 placeholder="New Pin" 
-                onFocus={() => setActiveInput("new")}
-                onBlur={() => setActiveInput(null)}
               />
             </div>
             
@@ -116,8 +111,6 @@ const PinChangeScreen = () => {
                 className="w-full bg-zinc-900/50 border border-zinc-700 rounded-xl 
                           text-white px-4 py-3 focus:outline-none focus:border-red-500"
                 placeholder="Confirm New Pin"
-                onFocus={() => setActiveInput("confirm")}
-                onBlur={() => setActiveInput(null)}
               />
             </div>
           </div>    

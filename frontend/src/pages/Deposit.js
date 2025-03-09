@@ -36,7 +36,7 @@ const DepositScreen = () => {
   
   // Handle accept deposit after cash is inserted
   const handleAccept = () => {
-    alert(`Deposited ${amount}`); // Implementation would handle the actual deposit
+    // alert(`Deposited ${amount}`); // Implementation would handle the actual deposit
     navigate("/atm");
   };
   
