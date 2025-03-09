@@ -3,8 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-const authRoutes = require("./routes/auth");
-const atmRoutes = require("./routes/atm");
+const authRoutes = require("../routes/auth");
+const atmRoutes = require("../routes/atm");
 
 const app = express();
 app.use(cors());
@@ -18,5 +18,4 @@ mongoose.connect(process.env.MONGO_URI)
 app.use("/api/auth", authRoutes);
 app.use("/api/atm", atmRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+module.exports = app; // No app.listen() needed
