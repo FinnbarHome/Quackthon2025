@@ -2,11 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaUserAlt } from "react-icons/fa";
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userEmail: "",
     password: "",
+    confirmPassword: "",
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,42 +21,39 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      console.log("Login attempted with:", formData);
-      // Store credentials for future biometric login
-      localStorage.setItem(
-        "userCredentials",
-        JSON.stringify({
-          id: formData.customerNumber, // Store the user ID
-          username: formData.customerNumber,
-        })
-      );
-      navigate("/auth");
+      console.log("Registration attempted with:", formData);
+      navigate("/"); // Navigate to a different page after successful registration
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Registration failed:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Password validation regex
+  const passwordRequirements = {
+    length: formData.password.length >= 12, // At least 12 characters or more.
+    number: /\d/.test(formData.password), // At least 1 number.
+    specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(formData.password), // At least one special character from the list.
+  };
+
   return (
-    <div className="min-h-screen bg-black flex font-viga">
-      <div className="w-full flex items-center justify-center p-8">
+    <div className="min-h-screen bg-black flex justify-center items-center font-viga"> 
+      <div className="w-full flex p-8">
         <div className="w-full max-w-md">
           <div className="mb-20 relative content-hidden animate-reveal">
-            <div className="relative">
-              <h1 className="text-8xl font-black tracking-tighter leading-none font-alatsi">
-                <div className="relative inline-block">
-                  <span className="text-white relative z-10">BANK</span>
-                  <div className="absolute -right-3 top-0 w-6 h-6 bg-red-500 rounded-sm -rotate-12"></div>
-                </div>
-                <div className="relative">
-                  <span className="text-white relative z-10">TUAH</span>
-                  <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-1 h-12 bg-red-500"></div>
-                </div>
-              </h1>
-            </div>
-            <p className="text-zinc-600 text-xl mt-2">Your ATM, Your Way</p>
+            <h1 className="text-8xl sm:text-6xl font-black tracking-tighter leading-none font-alatsi"> {/* Modify the Register Text to fit smaller screens.*/}
+              <span className="text-white relative z-10">REGISTER</span>
+            </h1>
+            <p className="text-zinc-600 text-xl mt-2">Create your account</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-12">
@@ -106,8 +104,37 @@ const Login = () => {
                         value={formData.password}
                         onChange={handleChange}
                         required
-                        placeholder="PIN"
-                        maxLength="6"
+                        placeholder="Password"
+                        maxLength="16"
+                        className="bg-transparent text-white text-lg w-full ml-4 
+                                 placeholder-zinc-600 focus:outline-none rounded-xl
+                                 relative z-10"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                className="group content-hidden animate-reveal"
+                style={{ animationDelay: "600ms" }}
+              >
+                <div className="animate-reveal animate-reveal-delay-3">
+                  <div className="group">
+                    <div
+                      className="flex items-center bg-zinc-900/50 h-16 px-6 rounded-2xl 
+                                backdrop-blur-sm transition-all duration-300
+                                group-hover:bg-zinc-800/50"
+                    >
+                      <FaLock className="text-red-500 text-lg" />
+                      <input
+                        type="password"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        required
+                        placeholder="Confirm Password"
+                        maxLength="16"
                         className="bg-transparent text-white text-lg w-full ml-4 
                                  placeholder-zinc-600 focus:outline-none rounded-xl
                                  relative z-10"
@@ -118,6 +145,31 @@ const Login = () => {
               </div>
             </div>
 
+            {/* Password Requirements */}
+            <div className="text-white space-y-2">
+              <p
+                className={`${
+                  passwordRequirements.length ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                - Must have 12 characters or more
+              </p>
+              <p
+                className={`${
+                  passwordRequirements.number ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                - Must have a number
+              </p>
+              <p
+                className={`${
+                  passwordRequirements.specialChar ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                - Must have a special character
+              </p>
+            </div>
+
             <div className="space-y-6">
               <button
                 type="submit"
@@ -126,12 +178,12 @@ const Login = () => {
                          relative overflow-hidden rounded-2xl group
                          transition-transform duration-300 hover:scale-[1.02]
                          content-hidden animate-reveal"
-                style={{ animationDelay: "600ms" }}
+                style={{ animationDelay: "800ms" }}
               >
                 <span className="relative z-10 inline-flex items-center">
                   {isLoading ? (
                     <>
-                      Verifying
+                      Registering
                       <span className="inline-flex ml-2">
                         <span
                           className="animate-float"
@@ -160,42 +212,18 @@ const Login = () => {
                       </span>
                     </>
                   ) : (
-                    "LOGIN"
+                    "REGISTER"
                   )}
                 </span>
               </button>
 
-              <div
-                className="flex items-center justify-between text-base content-hidden animate-reveal"
-                style={{ animationDelay: "800ms" }}
+              {/* Button to go back to the login page */}
+              <button
+                onClick={() => navigate("/")} //  Login is / (root) at the moment 
+                className="w-full bg-transparent text-lg font-semibold text-white border-2 border-red-500 h-16 rounded-2xl hover:bg-red-500 hover:text-white transition-all duration-300"
               >
-                <button
-                  type="button"
-                  className="text-zinc-500 hover:text-white transition-colors 
-                           relative group rounded-lg px-2 py-1 overflow-hidden"
-                >
-                  Forgot PIN
-                  <div
-                    className="absolute -bottom-0.5 left-2 right-2 h-px bg-gradient-to-r 
-                                 from-red-500 via-red-400 to-red-500 opacity-0 
-                                 group-hover:opacity-100 transition-all duration-300
-                                 rounded-full animate-shimmer"
-                  ></div>
-                </button>
-                <button
-                  onClick={() => navigate("/register")}
-                  className="text-zinc-500 hover:text-white transition-colors 
-                           relative group rounded-lg px-2 py-1 overflow-hidden"
-                >
-                  Don't have an account register!
-                  <div
-                    className="absolute -bottom-0.5 left-2 right-2 h-px bg-gradient-to-r 
-                                 from-red-500 via-red-400 to-red-500 opacity-0 
-                                 group-hover:opacity-100 transition-all duration-300
-                                 rounded-full animate-shimmer"
-                  ></div>
-                </button>
-              </div>
+                Back to Login
+              </button>
             </div>
           </form>
         </div>
@@ -204,4 +232,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
