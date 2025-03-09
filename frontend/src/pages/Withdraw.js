@@ -15,11 +15,9 @@ const WithdrawScreen = () => {
   const accountBalance = user?.balance || 0;
   const [transactionComplete, setTransactionComplete] = useState(false);
 
-
   const [showBalance, setShowBalance] = useState(false);
   const [withdrawalConfirmation, setWithdrawalConfirmation] = useState(false);
 
-  
   // Handle quick withdrawal buttons
   const handleQuickAmount = (value) => {
     setAmount(`£${value}`);
@@ -113,7 +111,7 @@ const WithdrawScreen = () => {
       <div className="w-full flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           {/* Header */}
-          <div className="mb-8 relative animate-reveal">
+          <div className="mb-8 relative content-hidden animate-reveal">
             <div className="relative">
               <h1 className="text-7xl font-black tracking-tighter leading-none font-alatsi">
                 <div className="relative inline-block">
@@ -130,7 +128,7 @@ const WithdrawScreen = () => {
           </div>
 
           {error && (
-            <div className="bg-red-500/10 border border-red-500/50 rounded-xl p-4 mb-6 animate-reveal">
+            <div className="bg-red-500/10 border border-red-500/50 rounded-xl p-4 mb-6 content-hidden animate-reveal">
               <p className="text-red-500 text-sm">{error}</p>
             </div>
           )}
@@ -139,7 +137,7 @@ const WithdrawScreen = () => {
             <>
               {/* Quick Withdraw */}
               <div
-                className="mb-6 animate-reveal"
+                className="mb-6 content-hidden animate-reveal"
                 style={{ animationDelay: "100ms" }}
               >
                 <p className="text-zinc-400 mb-3">Quick Withdraw:</p>
@@ -164,7 +162,7 @@ const WithdrawScreen = () => {
 
               {/* Custom Amount */}
               <div
-                className="mb-6 animate-reveal"
+                className="mb-6 content-hidden animate-reveal"
                 style={{ animationDelay: "500ms" }}
               >
                 <p className="text-zinc-400 mb-2">Custom Amount:</p>
@@ -185,7 +183,7 @@ const WithdrawScreen = () => {
 
               {/* Action Buttons */}
               <div
-                className="grid grid-cols-2 gap-3 animate-reveal"
+                className="grid grid-cols-2 gap-3 content-hidden animate-reveal"
                 style={{ animationDelay: "600ms" }}
               >
                 <button
@@ -205,7 +203,7 @@ const WithdrawScreen = () => {
               </div>
             </>
           ) : (
-            <div className="animate-reveal">
+            <div className="content-hidden animate-reveal">
               <div className="bg-zinc-900/50 border border-zinc-700 rounded-xl p-6">
                 <h2 className="text-white text-xl mb-4 text-center">
                   Confirm Withdrawal
@@ -247,7 +245,7 @@ const WithdrawScreen = () => {
 
           {/* Success Screen */}
           {transactionComplete && (
-            <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-8 animate-reveal">
+            <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-8 content-hidden animate-reveal">
               <div className="bg-zinc-900/50 border border-zinc-700 rounded-xl p-8 max-w-md w-full">
                 <h2 className="text-2xl text-white text-center mb-6">
                   Withdrawal Successful

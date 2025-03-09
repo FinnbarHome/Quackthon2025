@@ -8,6 +8,8 @@ import Withdraw from "./pages/Withdraw";
 import Scan from "./pages/Scan";
 import Deposit from "./pages/Deposit";
 import { UserProvider } from "./contexts/UserContext";
+import Settings from "./pages/Settings";
+import TransactionHistory from "./pages/TransactionHistory";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route path="/withdraw" element={<Withdraw />} />
           <Route path="/deposit" element={<Deposit />} />
           <Route path="/scan" element={<Scan />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/transactions" element={<TransactionHistory />} />
           <Route path="/" element={<Navigate to="/login" replace />} />
         </Routes>
       </BrowserRouter>

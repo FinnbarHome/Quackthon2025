@@ -4,6 +4,9 @@ import {
   FaMoneyBill,
   FaKey,
   FaEllipsisH,
+  FaCog,
+  FaHistory,
+  FaListAlt,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
@@ -47,6 +50,10 @@ const ATM = () => {
     navigate("/withdraw");
   };
 
+  const handleSettings = () => {
+    navigate("/settings");
+  };
+
   return (
     <div className="min-h-screen bg-black flex font-viga">
       <div className="w-full flex items-center justify-center p-8">
@@ -84,7 +91,7 @@ const ATM = () => {
           </div>
 
           {/* Main actions */}
-          <div className="space-y-3">
+          <div className="space-y-4 content-hidden animate-reveal">
             <div
               className="group content-hidden animate-reveal"
               style={{ animationDelay: "300ms" }}
@@ -129,16 +136,19 @@ const ATM = () => {
               className="group content-hidden animate-reveal"
               style={{ animationDelay: "500ms" }}
             >
-              <button className="w-full">
+              <button
+                className="w-full"
+                onClick={() => navigate("/transactions")}
+              >
                 <div
                   className="flex items-center justify-between bg-zinc-900/80 h-16 px-6 rounded-2xl 
                             backdrop-blur-sm transition-all duration-300
                             group-hover:bg-zinc-800 group-hover:scale-[1.02]"
                 >
                   <div className="flex items-center">
-                    <FaKey className="text-red-500 text-xl" />
+                    <FaListAlt className="text-red-500 text-xl" />
                     <span className="text-white text-lg font-medium ml-4">
-                      Change Password
+                      Transaction History
                     </span>
                   </div>
                 </div>
@@ -149,16 +159,16 @@ const ATM = () => {
               className="group content-hidden animate-reveal"
               style={{ animationDelay: "600ms" }}
             >
-              <button className="w-full">
+              <button className="w-full" onClick={handleSettings}>
                 <div
                   className="flex items-center justify-between bg-zinc-900/80 h-16 px-6 rounded-2xl 
                             backdrop-blur-sm transition-all duration-300
                             group-hover:bg-zinc-800 group-hover:scale-[1.02]"
                 >
                   <div className="flex items-center">
-                    <FaEllipsisH className="text-red-500 text-xl" />
+                    <FaCog className="text-red-500 text-xl" />
                     <span className="text-white text-lg font-medium ml-4">
-                      More Options
+                      Settings
                     </span>
                   </div>
                 </div>

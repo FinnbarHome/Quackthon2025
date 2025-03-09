@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaLock, FaUserAlt } from "react-icons/fa";
+import { FaLock, FaUserAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import ApiClient from "../utils/apiClient";
 import { useUser } from "../contexts/UserContext";
 
@@ -13,6 +13,7 @@ const Login = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const savedCredentials = localStorage.getItem("userCredentials");
@@ -138,7 +139,7 @@ const Login = () => {
                     >
                       <FaLock className="text-red-500 text-lg" />
                       <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
@@ -148,6 +149,13 @@ const Login = () => {
                                  placeholder-zinc-600 focus:outline-none rounded-xl
                                  relative z-10"
                       />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className="text-zinc-400 hover:text-zinc-300 transition-colors"
+                      >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      </button>
                     </div>
                   </div>
                 </div>
