@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaUserAlt } from "react-icons/fa";
 import ApiClient from "../utils/apiClient";
+import { useUser } from "../contexts/UserContext";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Login = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { updateUser } = useUser();
 
   const handleChange = (e) => {
     setFormData({
@@ -29,15 +31,25 @@ const Login = () => {
         password: formData.password,
       });
 
-      // Store the token and user info
+      // First store the token
       localStorage.setItem("token", data.token);
-      localStorage.setItem(
-        "userCredentials",
-        JSON.stringify({
-          id: data.customerNumber,
-          username: data.customerNumber,
-          balance: data.balance,
-        })
+
+      // Create a user object with all the data we want to store
+      const userCredentials = {
+        customerNumber: formData.customerNumber, // Use the input value since we know it's correct
+        token: data.token,
+        balance: data.balance || 0, // Add default value in case balance is undefined
+      };
+
+      // Update both localStorage and context
+      localStorage.setItem("userCredentials", JSON.stringify(userCredentials));
+      updateUser(userCredentials);
+
+      // Log to verify data is being stored
+      console.log("Stored credentials:", userCredentials);
+      console.log(
+        "LocalStorage after storing:",
+        localStorage.getItem("userCredentials")
       );
 
       navigate("/auth");

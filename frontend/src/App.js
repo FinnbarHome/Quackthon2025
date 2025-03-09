@@ -6,23 +6,22 @@ import Register from "./pages/Register";
 import ATM from "./pages/ATM";
 import Withdraw from "./pages/Withdraw";
 import Scan from "./pages/Scan";
-import Deposit from "./pages/Deposit";
-import Pin from "./pages/Pin";
+import { UserProvider } from "./contexts/UserContext";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/atm" element={<ATM />} />
-        <Route path="/withdraw" element={<Withdraw />} />
-        <Route path="/deposit" element={<Deposit />} />
-        <Route path="/scan" element={<Scan />} />
-        <Route path="/pin" element={<Pin />} />
-      </Routes>
-    </BrowserRouter>
+    <UserProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/atm" element={<ATM />} />
+          <Route path="/withdraw" element={<Withdraw />} />
+          <Route path="/scan" element={<Scan />} />
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 
