@@ -3,21 +3,25 @@ import { FaEye, FaEyeSlash, FaMoneyBillWave, FaMoneyBill, FaKey, FaEllipsisH } f
 import { useNavigate } from 'react-router-dom';
 
 const ATM = () => {
-    const navigate = useNavigate();
-// CONSTANTS SHOULD BE REPLACED BY BACKEND!!!
+    const navigate = useNavigate(); // CONSTANTS SHOULD BE REPLACED BY BACKEND!!!
     const [showBalance, setShowBalance] = useState(false);
-    const accountBalance = "1,234.56";
-    const atmLocation = "Perth Road ATM"; 
+    const accountBalance = "1,234.56"; // Needs to be retrived by backend
+    const atmLocation = "Perth Road ATM"; // Location needs to be retrived from sensor
 
-// Navigation of the Withdrawl
+  // Navigation of the Withdrawl
     const handleWithdraw = () => {
         navigate('/withdraw');
     };
 
-// Navigation of the Deposit
+  // Navigation of the Deposit
     const handleDeposit = () => {
         navigate('/deposit');
     };
+
+  // Navigation of the Deposit
+  const handlePin = () => {
+    navigate('/pin');
+  };
 
   return (
     <div className="min-h-screen bg-black flex font-sans">
@@ -72,7 +76,9 @@ const ATM = () => {
           {/* Secondary actions */}
           <div className="space-y-4 mb-8">
             <div className="animate-reveal" style={{ animationDelay: "400ms" }}>
-              <button className="w-full group">
+              <button 
+                className="w-full group"
+                onClick={handlePin}>
                 <div className="flex items-center bg-zinc-900/50 h-16 px-6 rounded-2xl 
                           backdrop-blur-sm transition-all duration-300
                           group-hover:bg-zinc-800/50">
