@@ -16,6 +16,7 @@ module.exports = {
         "success-pulse": "success-pulse 2s ease-out forwards",
         "success-ring": "success-ring 2s ease-out forwards",
         "success-check": "success-check 0.5s ease-out forwards 0.4s",
+        "fade-up": "fade-up 0.5s ease-out forwards",
       },
       keyframes: {
         reveal: {
@@ -77,6 +78,10 @@ module.exports = {
             transform: "scale(1)",
             opacity: "1",
           },
+        },
+        "fade-up": {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
       },
     },
