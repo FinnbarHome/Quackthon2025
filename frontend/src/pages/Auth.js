@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { startAuthentication } from "@simplewebauthn/browser";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -16,19 +15,36 @@ const Auth = () => {
     try {
       setIsLoading(true);
 
-      // Create authentication options
-      const authenticationOptions = {
+      const publicKeyCredentialCreationOptions = {
         challenge: window.crypto.getRandomValues(new Uint8Array(32)),
-        timeout: 60000,
-        userVerification: "required",
+        rp: {
+          name: "Bank Tuah",
+        },
+        user: {
+          id: new TextEncoder().encode("testuser"),
+          name: "testuser",
+          displayName: "Test User",
+        },
+        pubKeyCredParams: [
+          {
+            type: "public-key",
+            alg: -7,
+          },
+          {
+            type: "public-key",
+            alg: -257,
+          },
+        ],
         authenticatorSelection: {
           authenticatorAttachment: "platform",
           userVerification: "required",
         },
+        timeout: 60000,
       };
 
-      // Start authentication using SimpleWebAuthn
-      await startAuthentication(authenticationOptions);
+      const credential = await navigator.credentials.create({
+        publicKey: publicKeyCredentialCreationOptions,
+      });
 
       // If we get here, biometric check was successful
       setIsLoading(false);
