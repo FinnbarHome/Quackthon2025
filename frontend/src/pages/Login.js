@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaUserAlt } from "react-icons/fa";
+import ApiClient from "../utils/apiClient";
 
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    userEmail: "",
+    customerNumber: "",
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -20,19 +22,28 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError("");
     try {
-      console.log("Login attempted with:", formData);
-      // Store credentials for future biometric login
+      const data = await ApiClient.post("/api/auth/login", {
+        customerNumber: formData.customerNumber,
+        password: formData.password,
+      });
+
+      // Store the token and user info
+      localStorage.setItem("token", data.token);
       localStorage.setItem(
         "userCredentials",
         JSON.stringify({
-          id: formData.customerNumber, // Store the user ID
-          username: formData.customerNumber,
+          id: data.customerNumber,
+          username: data.customerNumber,
+          balance: data.balance,
         })
       );
+
       navigate("/auth");
     } catch (error) {
       console.error("Login failed:", error);
+      setError(error.message || "Invalid customer number or password");
     } finally {
       setIsLoading(false);
     }
@@ -58,6 +69,16 @@ const Login = () => {
             <p className="text-zinc-600 text-xl mt-2">Your ATM, Your Way</p>
           </div>
 
+          {error && (
+            <div
+              className="bg-red-500/10 border border-red-500/50 rounded-xl p-4
+                        animate-reveal content-hidden"
+              style={{ animationDelay: "100ms" }}
+            >
+              <p className="text-red-500 text-sm">{error}</p>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-12">
             <div className="space-y-2">
               <div
@@ -74,11 +95,11 @@ const Login = () => {
                       <FaUserAlt className="text-red-500 text-lg" />
                       <input
                         type="text"
-                        name="userEmail"
-                        value={formData.userEmail}
+                        name="customerNumber"
+                        value={formData.customerNumber}
                         onChange={handleChange}
                         required
-                        placeholder="Email"
+                        placeholder="Customer Number"
                         className="bg-transparent text-white text-lg w-full ml-4 
                                  placeholder-zinc-600 focus:outline-none rounded-xl
                                  relative z-10"
@@ -106,8 +127,7 @@ const Login = () => {
                         value={formData.password}
                         onChange={handleChange}
                         required
-                        placeholder="PIN"
-                        maxLength="6"
+                        placeholder="Password"
                         className="bg-transparent text-white text-lg w-full ml-4 
                                  placeholder-zinc-600 focus:outline-none rounded-xl
                                  relative z-10"
@@ -174,7 +194,7 @@ const Login = () => {
                   className="text-zinc-500 hover:text-white transition-colors 
                            relative group rounded-lg px-2 py-1 overflow-hidden"
                 >
-                  Forgot PIN
+                  Forgot Password
                   <div
                     className="absolute -bottom-0.5 left-2 right-2 h-px bg-gradient-to-r 
                                  from-red-500 via-red-400 to-red-500 opacity-0 
