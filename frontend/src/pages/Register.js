@@ -47,10 +47,10 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-black flex justify-center items-center font-viga"> 
-      <div className="w-full flex p-8">
+      <div className="w-full flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <div className="mb-20 relative content-hidden animate-reveal">
-            <h1 className="text-8xl sm:text-6xl font-black tracking-tighter leading-none font-alatsi"> {/* Modify the Register Text to fit smaller screens.*/}
+            <h1 className="text-8xl sm:text-6xl font-black tracking-tighter leading-none font-alatsi">
               <span className="text-white relative z-10">REGISTER</span>
             </h1>
             <p className="text-zinc-600 text-xl mt-2">Create your account</p>
