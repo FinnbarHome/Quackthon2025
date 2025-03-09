@@ -36,9 +36,13 @@ const WithdrawScreen = () => {
   
   // Complete the withdrawal process
   const handleConfirmWithdrawal = () => {
-    alert(`Withdrawing ${amount}`); // Implementation would handle the actual withdrawal
+    // alert(`Withdrawing ${amount}`); // Implementation would handle the actual withdrawal
     navigate("/atm");
   };
+
+  const handleCancelWithdrawal = () => {
+    navigate("/atm") // head back to atm without withdrawing any cash.
+  }
   
   // Navigate back to main screen
   const handleCancel = () => {
@@ -136,7 +140,7 @@ const WithdrawScreen = () => {
                 <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-6">
                   <h2 className="text-white text-xl mb-4 text-center">Withdraw Cash</h2>
                   <p className="text-zinc-300 mb-3 text-center">
-                    Please take your cash from the dispenser
+                    Are you sure you want to withdraw?
                   </p>
                   
                   <div className="flex justify-between items-center mb-4 border-t border-b border-zinc-700 py-4">
@@ -145,22 +149,26 @@ const WithdrawScreen = () => {
                   </div>
                   
                   <p className="text-zinc-400 text-sm text-center mb-4">
-                    Press "Done" when you have collected your cash
+                    Please confirm your withdrawl or cancel
                   </p>
-                  
-                  <div className="grid grid-cols-1 gap-3">
-                    <button 
-                      onClick={handleConfirmWithdrawal}
-                      className="bg-green-500 text-black font-medium py-3 rounded-xl
-                               transition-transform hover:scale-[1.02]"
-                    >
-                      Done
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                        onClick={handleCancelWithdrawal}
+                        className="bg-yellow-500 text-black font-medium py-3 rounded-xl
+                        transition-transform hover:scale-[1.02]"
+                    > Cancel
+                </button>
+                <button
+                    onClick={handleConfirmWithdrawal}
+                    className="bg-green-500 text-black font-medium py-3 rounded-xl
+                    transition-transform hover:scale-[1.02]"
+                    > Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+    </>
+        )}
           
           {/* Balance */}
           <div className="animate-reveal" style={{ animationDelay: "800ms" }}>
