@@ -166,7 +166,7 @@ const Register = () => {
                   passwordRequirements.specialChar ? "text-green-500" : "text-red-500"
                 }`}
               >
-                - Must have a special character
+                - Must have a special character (e.g. !, @, #, $, %, ^, &, *)
               </p>
             </div>
 
