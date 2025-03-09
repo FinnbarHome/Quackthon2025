@@ -102,6 +102,13 @@ const DepositScreen = () => {
                   />
                 </div>
               </div>
+
+              {/* Deposit Instruction */}
+              <div className="mb-6 animate-reveal" style={{ animationDelay: "650ms" }}>
+                <div className="border-zinc-700 rounded-xl p-4 text-center">
+                  <p className="text-zinc-400 text-sm">(For demonstration purposes only)</p>
+                </div>
+              </div>
               
               {/* Amount Display */}
               <div className="mb-6 animate-reveal" style={{ animationDelay: "600ms" }}>
@@ -110,15 +117,7 @@ const DepositScreen = () => {
                   {amount}
                 </div>
               </div>
-              
-              {/* Deposit Instruction */}
-              <div className="mb-6 animate-reveal" style={{ animationDelay: "650ms" }}>
-                <div className="border border-zinc-700 rounded-xl p-4 text-center bg-zinc-900/30">
-                  <p className="text-zinc-300 mb-1">Insert cash into the slot</p>
-                  <p className="text-zinc-400 text-sm">(For demonstration purposes only)</p>
-                </div>
-              </div>
-              
+
               {/* Action Buttons */}
               <div className="grid grid-cols-2 gap-3 mb-6 animate-reveal" style={{ animationDelay: "700ms" }}>
                 <button 
