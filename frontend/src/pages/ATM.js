@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash, FaMoneyBillWave, FaMoneyBill, FaKey, FaEllipsisH } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const ATM = () => {
+    const navigate = useNavigate();
 // CONSTANTS SHOULD BE REPLACED BY BACKEND!!!
-  const [showBalance, setShowBalance] = useState(false);
-  const accountBalance = "1,234.56";
-  const atmLocation = "Perth Road ATM"; 
+    const [showBalance, setShowBalance] = useState(false);
+    const accountBalance = "1,234.56";
+    const atmLocation = "Perth Road ATM"; 
 
 // Navigation of the list items
   const handleWithdraw = () => {
@@ -36,9 +38,7 @@ const ATM = () => {
           {/* Main actions */}
           <div className="space-y-4 mb-8">
             <div className="animate-reveal" style={{ animationDelay: "200ms" }}>
-              <button
-                onClick={handleWithdraw} 
-                className="w-full group">
+              <button className="w-full group">
                 <div className="flex items-center bg-zinc-900/50 h-16 px-6 rounded-2xl 
                           backdrop-blur-sm transition-all duration-300
                           group-hover:bg-zinc-800/50">
@@ -49,7 +49,9 @@ const ATM = () => {
             </div>
 
             <div className="animate-reveal" style={{ animationDelay: "300ms" }}>
-              <button className="w-full group">
+              <button 
+                className="w-full group"
+                onClick={handleWithdraw}>
                 <div className="flex items-center bg-zinc-900/50 h-16 px-6 rounded-2xl 
                           backdrop-blur-sm transition-all duration-300
                           group-hover:bg-zinc-800/50">

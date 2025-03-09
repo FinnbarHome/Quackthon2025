@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { FaEye, FaEyeSlash, FaArrowLeft } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const WithdrawScreen = () => {
+  const navigate = useNavigate();
   const [amount, setAmount] = useState("£10");
   const [customAmount, setCustomAmount] = useState("");
   const [showBalance, setShowBalance] = useState(true);
@@ -15,12 +17,14 @@ const WithdrawScreen = () => {
   
   // Handle custom amount input
   const handleCustomInput = (e) => {
-    const value = e.target.value.replace(/[^0-9]/g, '');
+    const value = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
     setCustomAmount(value);
-    if (value) {
-      setAmount(`£${parseInt(value, 10)}`);
+  
+    // Check if the input is valid (numbers and optional one decimal)
+    if (/^\d*\.?\d{0,2}$/.test(value) || value === "") {
+      setAmount(`£${parseInt(value, 10) || 0}`); // Corrected string interpolation with backticks
     } else {
-      setAmount("£0");
+      setAmount(value ? `£${parseInt(value, 10) || 0}` : "£0"); // Fixed string interpolation here too
     }
   };
   
@@ -33,7 +37,7 @@ const WithdrawScreen = () => {
   // Navigate back to main screen
   const handleCancel = () => {
     // In a real app, this would use react-router to navigate back
-    alert("Returning to main screen");
+    navigate("/atm");
   };
 
   return (
@@ -45,11 +49,11 @@ const WithdrawScreen = () => {
             <div className="relative">
               <h1 className="text-6xl font-black tracking-tighter leading-none">
                 <div className="relative inline-block">
-                  <span className="text-white relative z-10">Mobile</span>
+                  <span className="text-white relative z-10">BANK</span>
                   <div className="absolute -right-2 top-0 w-4 h-4 bg-red-500 rounded-sm -rotate-12"></div>
                 </div>
                 <div className="relative">
-                  <span className="text-white relative z-10">ATM</span>
+                  <span className="text-white relative z-10">TUAH</span>
                   <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-1 h-8 bg-red-500"></div>
                 </div>
               </h1>
@@ -81,7 +85,7 @@ const WithdrawScreen = () => {
             <p className="text-zinc-400 mb-2">Custom:</p>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400">£</span>
-              <input
+              <input 
                 type="text"
                 value={customAmount}
                 onChange={handleCustomInput}
