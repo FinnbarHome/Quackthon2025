@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import ATM from "./pages/ATM";
 import Withdraw from "./pages/Withdraw";
 import Scan from "./pages/Scan";
+import Deposit from "./pages/Deposit";
 import { UserProvider } from "./contexts/UserContext";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/atm" element={<ATM />} />
           <Route path="/withdraw" element={<Withdraw />} />
+          <Route path="/deposit" element={<Deposit />} />
           <Route path="/scan" element={<Scan />} />
         </Routes>
       </BrowserRouter>

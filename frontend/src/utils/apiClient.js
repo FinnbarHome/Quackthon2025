@@ -1,12 +1,13 @@
 const API_BASE_URL = "https://quackthon2025.onrender.com";
 
 class ApiClient {
-  static async post(endpoint, data) {
+  static async post(endpoint, data, options = {}) {
     try {
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...options.headers,
         },
         body: JSON.stringify(data),
       });

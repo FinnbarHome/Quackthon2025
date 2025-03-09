@@ -38,6 +38,10 @@ const ATM = () => {
     }
   }, [user?.customerNumber]);
 
+  const handleDeposit = () => {
+    navigate("/deposit");
+  };
+
   // Navigation of the list items
   const handleWithdraw = () => {
     navigate("/withdraw");
@@ -85,7 +89,7 @@ const ATM = () => {
               className="group content-hidden animate-reveal"
               style={{ animationDelay: "300ms" }}
             >
-              <button className="w-full">
+              <button className="w-full" onClick={handleDeposit}>
                 <div
                   className="flex items-center justify-between bg-zinc-900/80 h-16 px-6 rounded-2xl 
                             backdrop-blur-sm transition-all duration-300
